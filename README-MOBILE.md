@@ -6,6 +6,8 @@ Gebruik [de live versie van Tafelhelden](https://thomaschavannes72-maker.github.
 
 Een native iOS/iPadOS-appbestand kan niet zomaar via GitHub worden geïnstalleerd: Apple moet zo'n app ondertekenen voor het apparaat. Daarvoor is een Apple-ontwikkelaarsaccount nodig. De webapp hierboven is de gratis installatieoptie.
 
+Voor Mac is er daarnaast een downloadbare DMG-release: [Download Tafelhelden voor Mac](https://github.com/Thomaschavannes72-maker/tafelhelden-app/releases/latest/download/Tafelhelden-macOS.dmg). Deze Mac-app opent de live website in een eigen venster en bewaart gegevens lokaal in de app.
+
 De app is nu verpakt met Capacitor 8. De webbron blijft `outputs/index.html`; Vite bouwt die naar `dist/`, en Capacitor kopieert de build naar `ios/` en `android/`.
 
 ## Benodigd voor echte accounts en poules

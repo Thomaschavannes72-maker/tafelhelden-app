@@ -1,0 +1,14 @@
+Tafelhelden voor Mac installeren
+
+1. Sleep Tafelhelden.app naar de map Programma's (Applications).
+2. Open Tafelhelden vanuit Programma's.
+
+macOS kan bij de eerste keer melden dat de app niet van een geïdentificeerde
+ontwikkelaar komt. Dat komt doordat deze gratis GitHub-versie niet met een
+betaald Apple Developer-certificaat is ondertekend of door Apple is notarized.
+Om de app toch te openen: houd Control ingedrukt, klik op Tafelhelden.app,
+kies Open en bevestig daarna Open.
+
+De Mac-app toont de live Tafelhelden-website. Een internetverbinding is nodig
+om de app te starten. Instellingen en voortgang worden lokaal in deze Mac-app
+bewaard en blijven beschikbaar als je Tafelhelden later opnieuw opent.
