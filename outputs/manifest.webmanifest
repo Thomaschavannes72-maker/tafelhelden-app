@@ -1,12 +1,17 @@
 {
   "name": "Tafelhelden",
   "short_name": "Tafelhelden",
+  "id": "./",
+  "description": "Een vrolijke app om de tafels te oefenen.",
   "lang": "nl",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
   "background_color": "#f7f5ff",
   "theme_color": "#7357e8",
+  "categories": ["education", "kids"],
   "icons": [
-    { "src": "./icon.png", "sizes": "1024x1024", "type": "image/png", "purpose": "any" }
+    { "src": "./icon.png", "sizes": "1024x1024", "type": "image/png", "purpose": "any maskable" }
   ]
 }

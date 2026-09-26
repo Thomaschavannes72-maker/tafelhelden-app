@@ -1,5 +1,11 @@
 # Tafelhelden voor iOS en Android
 
+## Zonder betaalde store: installeren als webapp
+
+Gebruik [de live versie van Tafelhelden](https://thomaschavannes72-maker.github.io/tafelhelden-app/). Op een Mac kun je hem in Safari via **Archief → Voeg toe aan Dock** installeren. Op iPhone en iPad open je de link in Safari, tik je op **Deel** en kies je **Zet op beginscherm**. Dat geeft een app-icoon en een schermvullende app-ervaring zonder App Store.
+
+Een native iOS/iPadOS-appbestand kan niet zomaar via GitHub worden geïnstalleerd: Apple moet zo'n app ondertekenen voor het apparaat. Daarvoor is een Apple-ontwikkelaarsaccount nodig. De webapp hierboven is de gratis installatieoptie.
+
 De app is nu verpakt met Capacitor 8. De webbron blijft `outputs/index.html`; Vite bouwt die naar `dist/`, en Capacitor kopieert de build naar `ios/` en `android/`.
 
 ## Benodigd voor echte accounts en poules
