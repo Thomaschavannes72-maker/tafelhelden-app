@@ -44,7 +44,7 @@ if (!supabaseUrl || !supabaseAnonKey || import.meta.env.VITE_CHILD_SOCIAL_READY 
   }
   async function loadProfile() {
     if (!authUser) { profile = null; return; }
-    const { data, error } = await supabase.from('profiles').select('id,username').eq('id', authUser.id).maybeSingle();
+    const { data, error } = await supabase.from('profiles').select('id,username,is_teacher').eq('id', authUser.id).maybeSingle();
     if (report(error, 'Profiel laden ging niet.')) return;
     profile = data;
   }
@@ -74,6 +74,7 @@ if (!supabaseUrl || !supabaseAnonKey || import.meta.env.VITE_CHILD_SOCIAL_READY 
       ? `Je bent online ingelogd als @${profile.username}. Je vrienden zien alleen je gekozen gebruikersnaam.`
       : authUser ? 'Kies een gebruikersnaam van 2–20 tekens. Andere spelers zien deze naam in poules.'
         : 'Doe mee met een klascode met alleen een tijdelijke gebruikersnaam, of gebruik Apple/Google.';
+    $('#teacherRoleInput').checked = Boolean(profile?.is_teacher);
     const note = document.querySelector('.social-note');
     note.textContent = 'Je poules en uitnodigingen worden online bewaard en zijn beschikbaar op je andere apparaten.';
   }
@@ -153,6 +154,7 @@ if (!supabaseUrl || !supabaseAnonKey || import.meta.env.VITE_CHILD_SOCIAL_READY 
   };
   $('#accountButton').onclick = async () => {
     $('#usernameInput').value = profile?.username || '';
+    $('#teacherRoleInput').checked = Boolean(profile?.is_teacher);
     $('#signOutButton').classList.toggle('hidden', !authUser);
     $('#saveUsername').textContent = profile ? 'Gebruikersnaam wijzigen' : 'Gebruikersnaam opslaan';
     show('#accountModal');
@@ -162,7 +164,7 @@ if (!supabaseUrl || !supabaseAnonKey || import.meta.env.VITE_CHILD_SOCIAL_READY 
     if (!authUser) { toast('Log eerst in met Apple of Google.'); return; }
     const username = $('#usernameInput').value.trim().replace(/^@/, '').toLowerCase();
     if (!/^[a-z0-9_-]{2,20}$/.test(username)) { toast('Kies 2–20 letters, cijfers, _ of -.'); return; }
-    const { error } = await supabase.from('profiles').upsert({ id: authUser.id, username }, { onConflict: 'id' });
+    const { error } = await supabase.from('profiles').upsert({ id: authUser.id, username, is_teacher: $('#teacherRoleInput').checked }, { onConflict: 'id' });
     if (report(error, 'Gebruikersnaam opslaan ging niet.')) return;
     await refresh();
     hide('#accountModal');

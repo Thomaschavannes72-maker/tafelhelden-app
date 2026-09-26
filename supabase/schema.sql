@@ -4,8 +4,12 @@ create extension if not exists pgcrypto;
 create table if not exists public.profiles (
   id uuid primary key references auth.users(id) on delete cascade,
   username text not null unique check (username ~ '^[a-z0-9_-]{2,20}$'),
+  is_teacher boolean not null default false,
   created_at timestamptz not null default now()
 );
+
+-- Add the teacher role when upgrading an existing Tafelhelden project.
+alter table public.profiles add column if not exists is_teacher boolean not null default false;
 
 create table if not exists public.pools (
   id uuid primary key default gen_random_uuid(),

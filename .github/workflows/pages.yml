@@ -31,6 +31,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Build the website
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          VITE_CHILD_SOCIAL_READY: ${{ vars.VITE_CHILD_SOCIAL_READY }}
         run: pnpm build
       - name: Upload the website
         uses: actions/upload-pages-artifact@v3
