@@ -25,7 +25,6 @@ let scores = new Map();
 let answered = new Set();
 let chosenTables = [7];
 let countdownId = null;
-let waitingForAuth = false;
 
 function toast(message) {
   document.querySelector('.toast')?.remove();
@@ -33,6 +32,11 @@ function toast(message) {
   document.body.appendChild(node); setTimeout(() => node.remove(), 3300);
 }
 function status(message) { $('#quizStatus').textContent = message; }
+function connectionBlocker() {
+  if (!url || !anonKey) return 'De live quiz is nog niet verbonden: er staan geen Supabase-URL en anon key in GitHub. Vraag een ouder of docent om een Supabase-project te koppelen via Repository → Settings → Secrets and variables → Actions. Voer daarna supabase/schema.sql uit en publiceer opnieuw.';
+  if (!privacyReady) return 'De Supabase-verbinding staat klaar, maar live quizzen blijven uit totdat een ouder of school de privacy-inrichting voor leerlingen heeft afgerond en VITE_CHILD_SOCIAL_READY op true heeft gezet bij de GitHub Actions-variabelen.';
+  return '';
+}
 function game(markup) { $('#quizSetup').classList.add('hidden'); $('#quizGame').classList.remove('hidden'); $('#quizGame').innerHTML = markup; }
 function close() {
   clearInterval(countdownId); countdownId = null;
@@ -201,29 +205,29 @@ async function leaveQuiz() {
 function renderSetup() {
   drawTablePicks();
   const note = $('#quizConnectionNote');
-  note.textContent = !supabase || !privacyReady
-    ? 'Live meedoen vanaf verschillende apparaten werkt zodra Supabase is gekoppeld en de privacy-inrichting voor leerlingen van 9–11 jaar klaar is. Nu staat de online dienst nog uit; er is geen verbinding om klasapparaten aan elkaar te koppelen.'
-    : 'Gebruik een online profiel. De docent deelt de code vanaf het bord; leerlingen voeren die code hier in.';
+  const blocker = connectionBlocker();
+  if (blocker) note.innerHTML = `${esc(blocker)}<br><br><a href="https://supabase.com/dashboard" target="_blank" rel="noopener">Supabase openen</a> · <a href="https://github.com/Thomaschavannes72-maker/tafelhelden-app/settings/secrets/actions" target="_blank" rel="noopener">GitHub-secrets instellen</a> · <a href="https://github.com/Thomaschavannes72-maker/tafelhelden-app/blob/main/docs/WEBSITE-SETUP.md" target="_blank" rel="noopener">Alle instelstappen</a>`;
+  else note.textContent = 'Gebruik een online profiel. De docent deelt de code vanaf het bord; leerlingen voeren die code hier in.';
 }
 $('#classQuizModal').setAttribute('aria-hidden', 'true');
 $('#classQuizModal').addEventListener('click', (event) => { if (event.target === $('#classQuizModal')) close(); });
 $('#closeClassQuiz').onclick = leaveQuiz;
 $('#hostQuizButton').onclick = async () => {
   if (!chosenTables.length) { toast('Kies eerst minstens één tafel.'); return; }
-  if (!supabase || !privacyReady) { status('Live klasquiz is nog niet verbonden. Koppel eerst de online dienst en privacy-inrichting; zie docs/WEBSITE-SETUP.md.'); return; }
+  if (connectionBlocker()) { status(connectionBlocker()); return; }
   const { data: { user }, error } = await supabase.auth.getUser();
   if (error || !user) { status('Maak eerst een online profiel via 👤 Profiel. Een lokaal profiel kan niet op andere apparaten worden gevonden.'); return; }
   const { data: teacher, error: profileError } = await supabase.from('profiles').select('id,username,is_teacher').eq('id', user.id).maybeSingle();
   if (profileError) { status('Docentinstelling niet gevonden. Voer de nieuwste supabase/schema.sql uit en sla je docentprofiel opnieuw op.'); return; }
   if (!teacher?.is_teacher) { status('Vink in je profiel “Ik ben docent/leerkracht” aan en sla het profiel op.'); return; }
-  profile = teacher; waitingForAuth = false; roomState = { status: 'lobby', round: 0, total: Number($('#quizCount').value), seconds: Number($('#quizSeconds').value) };
+  profile = teacher; roomState = { status: 'lobby', round: 0, total: Number($('#quizCount').value), seconds: Number($('#quizSeconds').value) };
   connect(code6(), 'host');
 };
 $('#joinQuizButton').onclick = () => { $('#quizJoinRow').classList.toggle('hidden'); $('#quizCodeInput').focus(); };
 $('#quizCodeInput').oninput = () => { $('#quizCodeInput').value = $('#quizCodeInput').value.replace(/\D/g, '').slice(0, 6); };
 $('#quizCodeInput').onkeydown = (event) => { if (event.key === 'Enter') $('#quizJoinConfirm').click(); };
 $('#quizJoinConfirm').onclick = async () => {
-  if (!supabase || !privacyReady) { status('Live klasquiz is nog niet verbonden. Koppel eerst de online dienst en privacy-inrichting; zie docs/WEBSITE-SETUP.md.'); return; }
+  if (connectionBlocker()) { status(connectionBlocker()); return; }
   const code = $('#quizCodeInput').value.trim(); if (!/^\d{6}$/.test(code)) { status('Vul de 6-cijferige code van je docent in.'); return; }
   const { data: { user }, error } = await supabase.auth.getUser();
   if (error || !user) { status('Maak eerst een online gastprofiel via 👤 Profiel om mee te doen.'); return; }
