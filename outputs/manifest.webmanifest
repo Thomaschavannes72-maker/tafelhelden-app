@@ -1,0 +1,12 @@
+{
+  "name": "Tafelhelden",
+  "short_name": "Tafelhelden",
+  "lang": "nl",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f7f5ff",
+  "theme_color": "#7357e8",
+  "icons": [
+    { "src": "./icon.png", "sizes": "1024x1024", "type": "image/png", "purpose": "any" }
+  ]
+}

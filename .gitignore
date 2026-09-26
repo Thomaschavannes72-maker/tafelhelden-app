@@ -1,0 +1,11 @@
+node_modules/
+.pnpm-store/
+dist/
+.env*
+!.env.example
+.DS_Store
+work/
+ios/App/Pods/
+ios/DerivedData/
+android/.gradle/
+android/local.properties

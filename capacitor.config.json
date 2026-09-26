@@ -1,0 +1,9 @@
+{
+  "appId": "nl.tafelhelden.app",
+  "appName": "Tafelhelden",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https"
+  }
+}

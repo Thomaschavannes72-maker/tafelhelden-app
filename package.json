@@ -1,0 +1,25 @@
+{
+  "name": "tafelhelden-mobile",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --config vite.config.js",
+    "build": "vite build --config vite.config.js",
+    "cap:sync": "pnpm build && cap sync",
+    "ios": "pnpm cap:sync && cap open ios",
+    "android": "pnpm cap:sync && cap open android"
+  },
+  "dependencies": {
+    "@capacitor/app": "^8.1.1",
+    "@capacitor/browser": "^8.0.4",
+    "@capacitor/core": "^8.5.2",
+    "@supabase/supabase-js": "^2.117.2"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^8.5.2",
+    "@capacitor/cli": "^8.5.2",
+    "@capacitor/ios": "^8.5.2",
+    "vite": "^8.3.1"
+  }
+}

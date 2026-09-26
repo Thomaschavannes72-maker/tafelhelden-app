@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Tafelhelden</string>
+    <string name="title_activity_main">Tafelhelden</string>
+    <string name="package_name">nl.tafelhelden.app</string>
+    <string name="custom_url_scheme">nl.tafelhelden.app</string>
+</resources>
