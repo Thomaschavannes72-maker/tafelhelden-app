@@ -1,4 +1,4 @@
-const CACHE = 'tafelhelden-v1';
+const CACHE = 'thommy-wil-rekenen-v1';
 const APP_URL = new URL('./', self.location.href).href;
 
 self.addEventListener('install', event => {
